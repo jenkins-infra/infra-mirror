@@ -5,6 +5,9 @@ REMOTE_BASE_DIR=data/
 
 rsync -avz --filter='. rsync.filter' $BASE_DIR/ $HOST:jenkins/
 
+echo ">> Delivering bits to fallback"
+ssh www-data@localhost /srv/releases/populate-fallback.sh
+
 echo ">> Updating the latest symlink"
 ssh www-data@localhost /srv/releases/update-latest-symlink.sh "${ReleaseLine}"
 
