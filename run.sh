@@ -7,8 +7,10 @@ rsync -avz --filter='. rsync.filter' $BASE_DIR/ $HOST:jenkins/
 
 pushd $BASE_DIR
   rsync -avz --dry-run --delete-during --delete-excluded --prune-empty-dirs --include-from=<(
-    # files that are modified within the last 1 year
-    (find . -type f -mtime -365) | sed -e 's#\./#+ /#g'
+    # all the plugins
+    echo '+ plugins/**'
+    # files that are modified within the last 2 years
+    (find . -type f -mtime -730) | sed -e 's#\./#+ /#g'
     # visit all directories
     echo '+ */'
     # exclude everything else
