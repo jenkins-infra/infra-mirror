@@ -9,6 +9,10 @@ pushd $BASE_DIR
   rsync -avz --dry-run --delete-during --delete-excluded --prune-empty-dirs --include-from=<(
     # all the plugins
     echo '+ plugins/**'
+    # all the artwork
+    echo '+ art/**'
+    # all the files at the top
+    echo '+ /*'
     # files that are modified within the last 2 years
     (find . -type f -mtime -730) | sed -e 's#\./#+ /#g'
     # visit all directories
