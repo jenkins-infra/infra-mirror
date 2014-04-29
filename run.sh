@@ -5,20 +5,16 @@ REMOTE_BASE_DIR=data/
 
 rsync -avz --filter='. rsync.filter' $BASE_DIR/ $HOST:jenkins/
 
+DIR=$PWD
+
 pushd $BASE_DIR
   rsync -avz --dry-run --delete-during --delete-excluded --prune-empty-dirs --include-from=<(
-    # all the plugins
+    # keep all the plugins
     echo '+ plugins/**'
-    # all the artwork
-    echo '+ art/**'
-    # all the files at the top
-    echo '+ /*'
-    # files that are modified within the last 2 years
-    (find . -type f -mtime -730) | sed -e 's#\./#+ /#g'
-    # visit all directories
-    echo '+ */'
-    # exclude everything else
-    echo '- *'
+    # files that are older than last two years are removed from the mirror
+    (find . -type f -mtime +730) | sed -e 's#\./#- /#g'
+    # the rest of the rules come from rsync.filter
+    cat $DIR/rsync.filter
   ) . $HOST:jenkins/
 popd
 
