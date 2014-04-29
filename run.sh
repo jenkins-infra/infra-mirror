@@ -5,6 +5,18 @@ REMOTE_BASE_DIR=data/
 
 rsync -avz --filter='. rsync.filter' $BASE_DIR/ $HOST:jenkins/
 
+pushd $BASE_DIR
+  rsync -avz --dry-run --delete-during --delete-excluded --prune-empty-dirs --include-from=<(
+    # files that are modified within the last 1 year
+    (find . -type f -mtime -365) | sed -e 's#\./#+ /#g'
+    # visit all directories
+    echo '+ */'
+    # exclude everything else
+    echo '- *'
+  ) . $HOST:jenkins/
+popd
+
+
 echo ">> Delivering bits to fallback"
 ssh www-data@localhost /srv/releases/populate-fallback.sh
 
