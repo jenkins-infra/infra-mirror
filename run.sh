@@ -3,12 +3,10 @@ HOST=osuosl
 BASE_DIR=/srv/releases/hudson
 REMOTE_BASE_DIR=data/
 
-rsync -avz --filter='. rsync.filter' $BASE_DIR/ $HOST:jenkins/
-
-DIR=$PWD
+SCRIPT_DIR=$PWD
 
 pushd $BASE_DIR
-  rsync -avz --dry-run --delete-during --delete-excluded --prune-empty-dirs --include-from=<(
+  rsync -avz --delete-during --delete-excluded --prune-empty-dirs --include-from=<(
     # keep all the plugins
     echo '+ plugins/**'
     echo '+ updates/**'
@@ -18,7 +16,7 @@ pushd $BASE_DIR
     # files that are older than last two years are removed from the mirror
     find . -type f -mtime +730 | sed -e 's#\./#- /#g'
     # the rest of the rules come from rsync.filter
-    cat $DIR/rsync.filter
+    cat $SCRIPT_DIR/rsync.filter
   ) . $HOST:jenkins/
 popd
 
