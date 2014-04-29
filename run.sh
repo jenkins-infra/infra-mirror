@@ -16,7 +16,7 @@ pushd $BASE_DIR
     # I think this is a file we create on OSUOSL so don't let that be deleted
     echo '+ TIME'
     # files that are older than last two years are removed from the mirror
-    (find . -type f -mtime +730) | sed -e 's#\./#- /#g'
+    find . -type f -mtime +730 | sed -e 's#\./#- /#g'
     # the rest of the rules come from rsync.filter
     cat $DIR/rsync.filter
   ) . $HOST:jenkins/
