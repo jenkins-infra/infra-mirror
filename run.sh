@@ -9,11 +9,11 @@ DIR=$PWD
 
 pushd $BASE_DIR
   rsync -avz --dry-run --delete-during --delete-excluded --prune-empty-dirs --include-from=<(
-    # keep all the plugins, update center data and artwork
+    # keep all the plugins
     echo '+ plugins/**'
     echo '+ updates/**'
     echo '+ art/**'
-    # I think this is a file we create on OSUOSL so don't let that be deleted
+    # I think this is a file we create on OSUOSL so dont let that be deleted
     echo '+ TIME'
     # files that are older than last two years are removed from the mirror
     find . -type f -mtime +730 | sed -e 's#\./#- /#g'
