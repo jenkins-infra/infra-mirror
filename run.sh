@@ -11,6 +11,7 @@ pushd $BASE_DIR
     echo '+ plugins/**'
     echo '+ updates/**'
     echo '+ art/**'
+    echo '+ podcast/**'
     # I think this is a file we create on OSUOSL so dont let that be deleted
     echo '+ TIME'
     # files that are older than last one year is removed from the mirror
