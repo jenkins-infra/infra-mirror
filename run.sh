@@ -16,6 +16,8 @@ pushd $BASE_DIR
     echo '+ TIME'
     # files that are older than last one year is removed from the mirror
     find . -type f -mtime +365 | sed -e 's#\./#- /#g'
+    # copy all the symlinks
+    find . -type l
     # the rest of the rules come from rsync.filter
     cat $SCRIPT_DIR/rsync.filter
   ) . $HOST:jenkins/
