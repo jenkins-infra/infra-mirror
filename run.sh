@@ -14,10 +14,10 @@ pushd $BASE_DIR
     echo '+ podcast/**'
     # I think this is a file we create on OSUOSL so dont let that be deleted
     echo '+ TIME'
+    # copy all the symlinks
+    find . -type l | sed -e 's#\./#+ /#g'
     # files that are older than last one year is removed from the mirror
     find . -type f -mtime +365 | sed -e 's#\./#- /#g'
-    # copy all the symlinks
-    find . -type l
     # the rest of the rules come from rsync.filter
     cat $SCRIPT_DIR/rsync.filter
   ) . $HOST:jenkins/
