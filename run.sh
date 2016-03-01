@@ -32,7 +32,7 @@ echo ">> Updating the latest symlink"
 ssh www-data@localhost /srv/releases/update-latest-symlink.sh "${ReleaseLine}"
 
 echo ">> Triggering remote mirroring script"
-ssh $HOST "sh trigger-hudson"
+ssh $HOST "sh trigger-jenkins"
 
 echo ">> move index from staging to production"
 ssh www-data@localhost "cd /var/www; rsync -avz pkg.jenkins-ci.org.staging/ pkg.jenkins-ci.org/"
